@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>WILL THIS BE GOOD</title>
+        <link rel="stylesheet" href="static/css/stylesheet.css" type="text/css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="content">
+                {% for row in rows %}
+                    <h1>will <strong>{{row.thing}}</strong> be good?</h1>
+                    <h4>{{row.isitgood}}</h4>
+                    <br><br>
+                {% endfor %}
+                <img src="static/img/johnbarnes.jpg"/>
+            </div>
+        </div>
+    </body>
+
+</html>

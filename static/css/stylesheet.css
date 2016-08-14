@@ -1,0 +1,30 @@
+body{
+    padding: 40px;
+    font-family: Arial, sans-serif;
+}
+
+img {
+    display: block;
+    margin: auto;
+    margin-top: 200%;
+    width: 600px;
+}
+
+.container{
+    width: 1280px;
+    margin: auto;
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+  font-weight: normal;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+h4 {
+    font-size: 1.2em;
+}
