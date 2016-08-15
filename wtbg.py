@@ -37,7 +37,8 @@ def init_db():
 
 @app.route('/')
 def main():
-    rows = query_db("SELECT * FROM things ORDER BY created_at DESC")
+    init_db()
+    rows = query_db("SELECT * FROM things ORDER BY sent_at DESC")
     return render_template('index.html', rows=rows)
 
 if __name__ == '__main__':

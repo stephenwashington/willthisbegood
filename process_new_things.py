@@ -7,7 +7,7 @@ from datetime import datetime
 
 EMAIL_ADDR = "willthisbegood@gmail.com"
 EMAIL_PASS = "this will be good"
-EMAILS = ["qfloof@gmail.com"]
+EMAILS = ["qfloof@gmail.com"] # whitelisted emails
 
 def main():
     dbconn = sqlite3.connect('wtbg.db')
@@ -29,15 +29,21 @@ def main():
         for email_id in unread_msg_nums:
             _, res = mailbox.fetch(email_id, '(RFC822)')
             msg = email.message_from_bytes(res[0][1])
-            decode = email.header.decode_header(msg['Subject'])[0]
 
+            # thing is the subject of the email
+            decode = email.header.decode_header(msg['Subject'])[0]
             thing = decode[0].strip()
+
+            # isitgood is the body
             if msg.is_multipart():
                 for payload in msg.get_payload():
                     if payload.get_content_type() == 'text/plain':
                         isitgood = payload.get_payload()
             else:
                 isitgood = msg.get_payload()
+            isitgood = isitgood.rstrip() # remove trailing \r\n
+
+            # we're setting created_at to be equivalent to sent_at
             date_tuple = email.utils.parsedate_tz(msg['Date'])
             if date_tuple:
                 sent_at = datetime.fromtimestamp(
@@ -45,8 +51,8 @@ def main():
             else:
                 sent_at = datetime.utcnow()
 
-            thing = thing.strip()
-            isitgood = isitgood.rstrip() #remove trailing \r\n
+
+
             args = (thing, isitgood, sent_at.strftime("%Y-%m-%d %H:%M:%S"), 0)
 
             cur.execute("INSERT INTO things (thing, isitgood, created_at, posted) values (?,?,?,?)", args)
@@ -55,9 +61,9 @@ def main():
 
     mailbox.close()
     mailbox.logout()
-    dbconn.commit() #write all the inserts to the db
+    dbconn.commit() # write all the inserts to the db
 
-    query = "SELECT * FROM things WHERE posted=0 ORDER BY created_at ASC"
+    query = "SELECT * FROM things WHERE posted=0 ORDER BY sent_at ASC"
     latest_row = cur.execute(query).fetchone()
 
     if latest_row:
