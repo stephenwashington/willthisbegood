@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>WILL THIS BE GOOD</title>
+        <title>WILL THIS BE GOOD DOT WEBSITE</title>
         <link rel="stylesheet" href="static/css/stylesheet.css" type="text/css">
     </head>
 
@@ -10,9 +10,11 @@
         <div class="container">
             <div class="content">
                 {% for row in rows %}
-                    <h1>will <strong>{{row.thing}}</strong> be good?</h1>
-                    <h4>{{row.isitgood}}</h4>
-                    <br><br>
+                    {% if row.posted %}
+                        <h1>will <strong>{{row.thing.upper()}}</strong> be good?</h1>
+                        <h4>{{row.isitgood.upper()}}</h4>
+                        <br><br>
+                    {% endif %}
                 {% endfor %}
                 <img src="static/img/johnbarnes.jpg"/>
             </div>

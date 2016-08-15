@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from flask import Flask, render_template
 import os
 import sqlite3
@@ -33,18 +35,8 @@ def init_db():
         db.commit()
     print("DB Initialized")
 
-
-# root - 'mysql root password'
-
-#app.config['MYSQL_DATABASE_USER'] = 'johnb'
-#app.config['MYSQL_DATABASE_PASSWORD'] = 'this will be good'
-#app.config['MYSQL_DATABASE_DB'] = 'WTBG'
-#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-#mysql.init_app(app)
-
 @app.route('/')
 def main():
-    init_db()
     rows = query_db("SELECT * FROM things ORDER BY created_at DESC")
     return render_template('index.html', rows=rows)
 

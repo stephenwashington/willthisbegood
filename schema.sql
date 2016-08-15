@@ -1,11 +1,15 @@
 CREATE TABLE IF NOT EXISTS things (
-    thing VARCHAR(255) NULL,
-    isitgood VARCHAR(5) NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    thing TEXT NULL,
+    isitgood TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    posted INT NOT NULL DEFAULT 0
 );
 
 INSERT INTO things values (
+    1,
     "this website",
     "yes",
-    CURRENT_TIMESTAMP
+    "2015-01-01 01:23:45",
+    1
 );
