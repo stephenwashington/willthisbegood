@@ -11,8 +11,15 @@ app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'wtbg.db'),
 ))
 
-app.config.from_envvar('WTBG_SETTINGS', silent=True)
-#Make a feed style
+# Logging! (http://stackoverflow.com/a/14042671)
+if not app.debug:
+    import logging
+    from logging.handlers import RotatingFileHandler
+    file_handler = RotatingFileHandler('wtbg_app.log', 'a', 1 * 1024 * 1024, 10)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s (%(levelname)s): %(message)s [line %(lineno)d'))
+    app.logger.setLevel(logging.INFO)
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
 
 def connect_db():
     rv = sqlite3.connect(app.config['DATABASE'])
@@ -37,9 +44,8 @@ def init_db():
 
 @app.route('/')
 def main():
-    init_db()
     rows = query_db("SELECT * FROM things ORDER BY sent_at DESC")
     return render_template('index.html', rows=rows)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

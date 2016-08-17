@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS things (
 
 INSERT INTO things values (
     1,
-    "this website",
-    "yes",
+    "THIS WEBSITE",
+    "YES",
     "2015-01-01 01:23:45",
     1
 );

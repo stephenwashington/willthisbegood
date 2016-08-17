@@ -1,5 +1,5 @@
 #WILL THIS BE GOOD
 
-willthisbegood.website is a singe-page website that tells you if John Barnes things will be good. All opinions are final unless they are changed.
+willthisbegood.website is a singe-page website that tells you if certain thing will be good. All opinions are final unless they are changed.
 
-Be sure to check back every day for John Barnes' latest opinions. 
+This website updates daily. To complain about the website, email minervaheavyindustries@gmail.com. To complain about the opinions, tweet [@badpun](https://twitter.com/badpun)

@@ -7,11 +7,11 @@ img {
     display: block;
     margin: auto;
     margin-top: 200%;
-    width: 600px;
+    width: 50%;
 }
 
 .container{
-    width: 1280px;
+    width: 75%;
     margin: auto;
     text-align: center;
 }
