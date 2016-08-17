@@ -9,7 +9,10 @@ This website updates daily. To complain about the website, email minervaheavyind
 willthisbegood runs on Flask, python3, and a Gmail account. `process_new_things.py` looks at the gmail account, and grabs all emails sent by the whitelisted email. These are then stored in a sqlite3 database, which `wtbg.py` uses to populate the page. To actually install:
 
 0. Clone this repository
-    `git clone https://github.com/stephenwashington/willthisbegood`
+
+```shell
+git clone https://github.com/stephenwashington/willthisbegood
+```
 
 1. Set up a virtual environment
 
