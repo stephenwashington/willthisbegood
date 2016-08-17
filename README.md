@@ -8,44 +8,44 @@ This website updates daily. To complain about the website, email minervaheavyind
 
 willthisbegood runs on Flask, python3, and a Gmail account. `process_new_things.py` looks at the gmail account, and grabs all emails sent by the whitelisted email. These are then stored in a sqlite3 database, which `wtbg.py` uses to populate the page. To actually install:
 
-Clone this repository
+1. Clone this repository
 
-```shell
-git clone https://github.com/stephenwashington/willthisbegood
-```
+    ```shell
+    git clone https://github.com/stephenwashington/willthisbegood
+    ```
 
-Set up a virtual environment
+2. Set up a virtual environment
 
-```shell
-cd willthisbegood
-virtualenv venv
-. venv/bin/activate
-```
+    ```shell
+    cd willthisbegood
+    virtualenv venv
+    . venv/bin/activate
+    ```
 
-Install the necessary dependencies via pip3
+3. Install the necessary dependencies via pip3
 
-```shell
-pip3 install -r requirements.txt
-```
+    ```shell
+    pip3 install -r requirements.txt
+    ```
 
-Set the environmental variables
+4. Set the environmental variables
 
-```shell
-export FLASK_APP="wtbg.py"
-export EMAIL_ADDR="email.to.get.things.from@example.com"
-export EMAIL_PASS="yourp4ssword"
-export WTBG_EMAIL="whtielisted.email@example.com"
-```
+    ```shell
+    export FLASK_APP="wtbg.py"
+    export EMAIL_ADDR="email.to.get.things.from@example.com"
+    export EMAIL_PASS="yourp4ssword"
+    export WTBG_EMAIL="whtielisted.email@example.com"
+    ```
 
-Run init_db() in `wtbg.py`
+5. Run init_db() in `wtbg.py`
 
-```shell
->>> from wtbg.py import init_db
->>> init_db()
-```
+    ```shell
+    >>> from wtbg.py import init_db
+    >>> init_db()
+    ```
 
-5. Run the Flask app (App will be on http://127.0.0.1:5000)
+6. Run the Flask app (App will be on http://127.0.0.1:5000)
 
-```shell
-flask run
-```
+    ```shell
+    flask run
+    ```
