@@ -3,13 +3,13 @@ import sqlite3
 import imaplib
 import email
 import logging
-from os import getenv, environ
+from os import getenv
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
 
 EMAIL_ADDR = getenv("WTBG_EMAIL",'')
 EMAIL_PASS = getenv("WTBG_PASS",'')
-EMAILS = ["qfloof@gmail.com"] # whitelisted emails
+WHITELISTED_EMAIL = getenv("WTBG_WHITELISTED_EMAIL",'')
 
 # stuff for logging
 logger = logging.getLogger("Rotating Log")
@@ -26,7 +26,6 @@ def main():
     # login to the gmail account
     mailbox = imaplib.IMAP4_SSL('imap.gmail.com', 993)
     try:
-        print(environ)
         mailbox.login(EMAIL_ADDR, EMAIL_PASS)
         logger.info("Successfully logged into email")
     except imaplib.IMAP4.error as e:
@@ -35,43 +34,42 @@ def main():
     mailbox.select() #defaults to inbox
 
     # loop through all whitelisted emails
-    for mail in EMAILS:
-        status, response = mailbox.search(None, '(UNSEEN)', '(FROM {})'.format(mail))
-        unread_msg_nums = response[0].split()
+    status, response = mailbox.search(None, '(UNSEEN)', '(FROM {})'.format(WHITELISTED_EMAIL))
+    unread_msg_nums = response[0].split()
 
-        for email_id in unread_msg_nums:
-            _, res = mailbox.fetch(email_id, '(RFC822)')
-            msg = email.message_from_bytes(res[0][1])
+    for email_id in unread_msg_nums:
+        _, res = mailbox.fetch(email_id, '(RFC822)')
+        msg = email.message_from_bytes(res[0][1])
 
-            # thing is the subject of the email
-            decode = email.header.decode_header(msg['Subject'])[0]
-            thing = decode[0].strip().upper()
+        # thing is the subject of the email
+        decode = email.header.decode_header(msg['Subject'])[0]
+        thing = decode[0].strip().upper()
 
-            # isitgood is the body
-            if msg.is_multipart():
-                for payload in msg.get_payload():
-                    if payload.get_content_type() == 'text/plain':
-                        isitgood = payload.get_payload()
-            else:
-                isitgood = msg.get_payload()
-            isitgood = isitgood.rstrip().upper() # remove trailing \r\n
+        # isitgood is the body
+        if msg.is_multipart():
+            for payload in msg.get_payload():
+                if payload.get_content_type() == 'text/plain':
+                    isitgood = payload.get_payload()
+        else:
+            isitgood = msg.get_payload()
+        isitgood = isitgood.rstrip().upper() # remove trailing \r\n
 
-            # sent_at is the date the email was sent
-            date_tuple = email.utils.parsedate_tz(msg['Date'])
-            if date_tuple:
-                sent_at = datetime.fromtimestamp(
-                    email.utils.mktime_tz(date_tuple))
-            else:
-                sent_at = datetime.utcnow()
+        # sent_at is the date the email was sent
+        date_tuple = email.utils.parsedate_tz(msg['Date'])
+        if date_tuple:
+            sent_at = datetime.fromtimestamp(
+                email.utils.mktime_tz(date_tuple))
+        else:
+            sent_at = datetime.utcnow()
 
-            args = (thing.upper(), isitgood.upper(), sent_at.strftime("%Y-%m-%d %H:%M:%S"), 0)
-            duplicate = cur.execute("SELECT * FROM THINGS WHERE thing=? AND isitgood=?", (thing, isitgood)).fetchall()
+        args = (thing.upper(), isitgood.upper(), sent_at.strftime("%Y-%m-%d %H:%M:%S"), 0)
+        duplicate = cur.execute("SELECT * FROM THINGS WHERE thing=? AND isitgood=?", (thing, isitgood)).fetchall()
 
-            if not duplicate:
-                cur.execute("INSERT INTO things (thing, isitgood, sent_at, posted) values (?,?,?,?)", args)
-                mailbox.store(email_id, "+FLAGS", "\Seen")
-                logger.info("EMAIL LOGGED: {}".format(args))
-        logger.info("{} emails from {}".format(len(unread_msg_nums), mail))
+        if not duplicate:
+            cur.execute("INSERT INTO things (thing, isitgood, sent_at, posted) values (?,?,?,?)", args)
+            mailbox.store(email_id, "+FLAGS", "\Seen")
+            logger.info("EMAIL LOGGED: {}".format(args))
+    logger.info("{} emails from {}".format(len(unread_msg_nums), WHITELISTED_EMAIL))
 
     mailbox.close()
     mailbox.logout()
