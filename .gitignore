@@ -92,5 +92,5 @@ ENV/
 *.db
 *.ini
 *.sock
-wtbg.py
+wsgi.py
 
