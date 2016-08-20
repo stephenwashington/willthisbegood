@@ -1,6 +1,6 @@
 #WILL THIS BE GOOD
 
-willthisbegood.website is a singe-page website that tells you if certain things will be good or not. All opinions are final.
+[willthisbegood.website](http://willthisbegood.website) is a singe-page website that tells you if certain things will be good or not. All opinions are final.
 
 This website updates daily. To complain about the website, email minervaheavyindustries@gmail.com. To complain about the opinions, tweet [@badpun](https://twitter.com/badpun)
 
