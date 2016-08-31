@@ -34,7 +34,7 @@ def main():
     mailbox.select() #defaults to inbox
 
     # loop through all whitelisted emails
-    status, response = mailbox.search(None, '(UNSEEN)', '(FROM {})'.format(WHITELISTED_EMAIL))
+    status, response = mailbox.search(None, '(FROM {})'.format(WHITELISTED_EMAIL))
     unread_msg_nums = response[0].split()
 
     for email_id in unread_msg_nums:

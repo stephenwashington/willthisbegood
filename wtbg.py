@@ -45,7 +45,12 @@ def init_db():
 @app.route('/')
 def main():
     rows = query_db("SELECT * FROM things ORDER BY sent_at DESC")
-    return render_template('index.html', rows=rows)
+    rows_copy = [dict(row) for row in rows]
+    for row in rows_copy: #forces all text to be unicode
+        if isinstance(row["thing"], bytes):
+            row["thing"] = row["thing"].decode('utf-8')
+
+    return render_template('index.html', rows=rows_copy)
 
 if __name__ == '__main__':
     app.run()
