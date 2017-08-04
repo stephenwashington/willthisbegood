@@ -1,10 +1,10 @@
-#WILL THIS BE GOOD
+# WILL THIS BE GOOD
 
 [willthisbegood.website](http://willthisbegood.website) is a singe-page website that tells you if certain things will be good or not. All opinions are final.
 
 This website updates daily. To complain about the website, email minervaheavyindustries@gmail.com. To complain about the opinions, tweet [@badpun](https://twitter.com/badpun)
 
-#Installation
+# Installation
 
 willthisbegood runs on Flask, python3, and a Gmail account. `process_new_things.py` looks at the gmail account, and grabs all emails sent by the whitelisted email. These are then stored in a sqlite3 database, which `wtbg.py` uses to populate the page. To actually install:
 
